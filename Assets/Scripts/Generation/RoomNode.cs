@@ -1,21 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static RoomGeneratorScript;
 
+[System.Serializable]
 public class RoomNode
 {
     public int id;
     public Vector2 position;
-    public bool isRestStop = false;
-    public bool isStart = false;
-    public bool isEnd = false;
     public List<RoomNode> connections = new List<RoomNode>();
-    public RoomDifficulty difficulty = RoomDifficulty.None;
 
-    public  RoomNode(int id, Vector2 pos)
+    // Status flags for the generator and view
+    public bool isStart;
+    public bool isEnd;
+    public bool isRestStop;
+
+    public RoomDifficulty difficulty;
+
+    public RoomNode(int id, Vector2 position)
     {
         this.id = id;
-        this.position = pos;
+        this.position = position;
     }
 }
