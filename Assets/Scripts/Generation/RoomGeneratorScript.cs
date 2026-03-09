@@ -1,55 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Build;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using UnityEngine.Tilemaps;
 
 public class RoomGeneratorScript : MonoBehaviour
 {
     [Header("Room Generation Rules")]
-    public uint mainPathLength;
-    [Range(0, 3)] public int maxBranchesPerRoom;
-    [Range(0f, 1f)] public float extraConnectionChance;
-    
-    [Header("Rest Stop Rules")]
-    public uint restStopCount;
-    public uint minRestStopSeparation = 3;
-
-    [Header("Layout Difficulty Rules")]
-    [Range(0f, 1f)] public float difficultyBias;
+    public uint mainPathLength = 6;
+    [Range(0, 3)] public int maxBranchesPerRoom = 2;
+    public float gridSpacing = 12.0f;
 
     [Header("Visual Representation")]
     public GameObject RoomNodePrefab;
     public Material lineMaterial;
 
-    private float gridSpacing = 0.22f;
-    private int idCounter = 1;
-
     private List<RoomNode> nodes = new List<RoomNode>();
-    private RoomNode startNode;
-    private RoomNode endNode;
-
-    HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
-
-    Vector2Int[] directions =
-    {
-        Vector2Int.right,
-        Vector2Int.left,
-        Vector2Int.up,
-        Vector2Int.down
-    };
-
-    public enum RoomDifficulty
-    {
-        None,
-        Easy,
-        Medium,
-        Hard
-    }
+    private HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
+    private Vector2Int[] directions = { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
 
     void Start()
     {
@@ -57,327 +23,139 @@ public class RoomGeneratorScript : MonoBehaviour
         DrawGraph();
     }
 
-    void GenerateGraph() 
+    void GenerateGraph()
     {
-        // Resets generation
         nodes.Clear();
         occupied.Clear();
-        idCounter = 1;
 
-        GenerateMainPath(nodes);
-
-        GenerateBranching(nodes);
-
-        ConnectBranches();
-
-        GenerateRestStops(nodes, restStopCount);
-
-        AssignRoomDifficulty(nodes);
-    }
-
-    // Generates the main path "spine" for the rest of generation to base off of, includes start and end rooms
-    void GenerateMainPath(List<RoomNode> nodes)
-    {
-        // Initializes grid, creates starting node
         Vector2Int currentGrid = Vector2Int.zero;
+        RoomNode previous = null;
 
-        startNode = new RoomNode(0, GridToWorld(currentGrid));
-        startNode.isStart = true;
-        nodes.Add(startNode);
-        occupied.Add(currentGrid);
-
-        RoomNode current = startNode;
-
-        // Main loop to create main path
-        for (int i = 1; i < mainPathLength; i++)
+        // MAIN PATH
+        for (int i = 0; i < mainPathLength; i++)
         {
-            Vector2Int nextGrid = currentGrid + Vector2Int.right;
-            List<Vector2Int> validMoves = new List<Vector2Int>();
+            RoomNode newNode = new RoomNode(i, GridToWorld(currentGrid));
+            newNode.roomLevel = i + 1;
 
-            //Figures out which direction the node can go
-            foreach (Vector2Int direction in directions)
+            if (i == 0)
             {
-                Vector2Int candidate = currentGrid + direction;
-
-                if (!occupied.Contains(candidate))
-                {
-                    validMoves.Add(direction);
-                }
+                newNode.isStart = true;
+                newNode.type = RoomType.Start;
             }
 
-            if (validMoves.Count == 0) break;
+            if (i == mainPathLength - 1)
+            {
+                newNode.isEnd = true;
+                newNode.type = RoomType.Boss;
+            }
 
-            //Chooses direction for node
-            Vector2Int chosenDirection = validMoves[Random.Range(0, validMoves.Count)];
-            currentGrid += chosenDirection;
-
-            RoomNode next = new RoomNode(idCounter++, GridToWorld(currentGrid));
-            nodes.Add(next);
+            nodes.Add(newNode);
             occupied.Add(currentGrid);
 
-            ConnectRooms(current, next);
-            current = next;
+            if (previous != null)
+            {
+                previous.connections.Add(newNode);
+                newNode.connections.Add(previous);
+            }
+
+            previous = newNode;
+            currentGrid += directions[Random.Range(0, 4)];
         }
 
-        endNode = current;
-        current.isEnd = true;
-    }
-
-    // Creates rooms that branch off of the main "spine", based on a random chance chosen by user
-    void GenerateBranching(List<RoomNode> nodes)
-    {
-        List<RoomNode> spine = new(nodes);
+        // BRANCHING
+        List<RoomNode> spine = new List<RoomNode>(nodes);
 
         foreach (RoomNode node in spine)
         {
-            Vector2Int baseGrid = WorldToGrid(node.position);
-            int branches = Random.Range(0, maxBranchesPerRoom + 1);
+            if (node.isStart || node.isEnd) continue;
 
-            if (node.isStart || node.isEnd)
-            {
-                continue;
-            }
+            int branches = Random.Range(0, maxBranchesPerRoom + 1);
 
             for (int i = 0; i < branches; i++)
             {
-                List<Vector2Int> validDirs = new();
+                Vector2Int branchGrid = WorldToGrid(node.position) + directions[Random.Range(0, 4)];
 
-                // Figures out which direction the node can go
-                foreach (Vector2Int dir in directions)
+                if (!occupied.Contains(branchGrid))
                 {
-                    Vector2Int candidate = baseGrid + dir;
-                    if (!occupied.Contains(candidate))
-                        validDirs.Add(dir);
-                }
+                    RoomNode branch = new RoomNode(nodes.Count, GridToWorld(branchGrid));
+                    branch.roomLevel = node.roomLevel + 1;
+                    branch.type = RoomType.Common;
 
-                if (validDirs.Count == 0)
-                    break;
+                    nodes.Add(branch);
+                    occupied.Add(branchGrid);
 
-                //Chooses a random available direction for the node to be
-                Vector2Int chosenDir = validDirs[Random.Range(0, validDirs.Count)];
-                Vector2Int branchGrid = baseGrid + chosenDir;
-
-                RoomNode branch = new RoomNode(idCounter++, GridToWorld(branchGrid));
-                nodes.Add(branch);
-                occupied.Add(branchGrid);
-
-                ConnectRooms(node, branch);
-            }
-        }
-    }
-
-    void ConnectRooms(RoomNode a, RoomNode b)
-    {
-        a.connections.Add(b);
-        b.connections.Add(a);
-    }
-
-    // Helper function to return a node at a specific grid position
-    RoomNode GetNodeAtGrid(Vector2Int gridPos)
-    {
-        foreach (RoomNode node in nodes)
-        {
-            if (WorldToGrid(node.position) == gridPos)
-            {
-                return node;
-            }
-        }
-
-        return null;
-    }
-
-    // Connects the branches after they've generated, based on the extra connection chance
-    void ConnectBranches()
-    {
-        foreach(RoomNode node in nodes)
-        {
-            Vector2Int grid = WorldToGrid(node.position);
-
-            foreach(Vector2Int direction in directions)
-            {
-                if (Random.value > extraConnectionChance) continue;
-
-                Vector2Int neighborGrid = grid + direction;
-                RoomNode neighbor = GetNodeAtGrid(neighborGrid);
-
-                if (neighbor == null) continue;
-
-                if (node.connections.Contains(neighbor)) continue;
-
-                ConnectRooms(node, neighbor);
-            }
-        }
-    }
-
-    // Generates rest stops within the given layout, just changes a room into being a rest stop through the nodes data
-    void GenerateRestStops(List<RoomNode> nodes, uint numRests)
-    {
-        List<RoomNode> validCandidates = new();
-
-        // Finds possible rooms that could be nodes, excludes start and end
-        foreach (RoomNode node in nodes)
-        {
-            if (node == startNode || node == endNode)
-                continue;
-
-            validCandidates.Add(node);
-        }
-
-        List<RoomNode> placedRestStops = new();
-
-        int safety = 0;
-        int maxAttempts = 1000;
-        
-        // Continually loops until it finds a possible spot based on parameters, if unsuccessful, it will not generate enough rest stops
-        while (placedRestStops.Count < numRests && safety < maxAttempts)
-        {
-            safety++;
-
-            RoomNode candidate = validCandidates[Random.Range(0, validCandidates.Count)];
-
-            bool tooClose = false;
-
-            // Candidates cannot be start or end (sanity check)
-            if (candidate == null || candidate == startNode || candidate == endNode)
-            {
-                continue;
-            }
-
-            // Cannot generate next to a start or end node
-            if (GridDistance(candidate, startNode) <= minRestStopSeparation || GridDistance(candidate, endNode) <= minRestStopSeparation)
-            {
-                continue;
-            }
-
-            // Checks to see if the rest stops are too close to each other
-            foreach (RoomNode rest in placedRestStops)
-            {
-                if (GridDistance(candidate, rest) <= minRestStopSeparation)
-                {
-                    tooClose = true;
-                    break;
+                    node.connections.Add(branch);
+                    branch.connections.Add(node);
                 }
             }
-
-            if (tooClose) continue;
-
-            candidate.isRestStop = true;
-            placedRestStops.Add(candidate);  
         }
     }
 
-    // Applies a difficulty to each room based on a curve/bias
-    void AssignRoomDifficulty(List<RoomNode> nodes)
+    void DrawGraph()
     {
-        // Create new list for the combat rooms
-        List<RoomNode> combatRooms = new();
+        DungeonSaveData currentDungeonData = new DungeonSaveData { seed = Random.Range(0, 99999) };
 
-        foreach (RoomNode node in nodes)
+        List<RoomController> spawnedControllers = new List<RoomController>();
+        Dictionary<int, Tilemap> roomTilemaps = new Dictionary<int, Tilemap>();
+
+        for (int i = 0; i < nodes.Count; i++)
         {
-            if (node.isRestStop || node == startNode || node == endNode) continue;
-
-            combatRooms.Add(node);
-        }
-
-        int total = combatRooms.Count;
-
-        // Bias values based on difficulty slider
-        float hardWeight = Mathf.Pow(difficultyBias, 2f);
-        float easyWeight = Mathf.Pow(1f - difficultyBias, 2f);
-        float mediumWeight = 1f - (hardWeight + easyWeight);
-
-        float weightSum = easyWeight + mediumWeight + hardWeight;
-        easyWeight /= weightSum;
-        mediumWeight /= weightSum;
-        hardWeight /= weightSum;
-
-        int easy = Mathf.RoundToInt(total * easyWeight);
-        int medium = Mathf.RoundToInt(total * mediumWeight);
-        int hard = total - easy - medium;
-
-        Shuffle(combatRooms);
-
-        int index = 0;
-
-        for (int i = 0; i < easy; i++)
-            combatRooms[index++].difficulty = RoomDifficulty.Easy;
-
-        for (int i = 0; i < medium; i++)
-            combatRooms[index++].difficulty = RoomDifficulty.Medium;
-
-        for (int i = 0; i < hard; i++)
-            combatRooms[index++].difficulty = RoomDifficulty.Hard;
-    }
-
-    // Helper function for room difficulty to shuffle list elements
-    void Shuffle<T>(List<T> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            int j = Random.Range(i, list.Count);
-            (list[i], list[j]) = (list[j], list[i]);
-        }
-    }
-
-    // Non-essential function for generating the map, but this provides the visual representation
-    void DrawGraph() 
-    { 
-        foreach(RoomNode node in nodes)
-        {
+            RoomNode node = nodes[i];
             GameObject room = Instantiate(RoomNodePrefab, node.position, Quaternion.identity);
 
-            RoomNodeView view = room.GetComponent<RoomNodeView>();
-            if (view != null)
-                view.Init(node);
+            RoomController controller = room.GetComponent<RoomController>();
 
-            SpriteRenderer sr = room.GetComponent<SpriteRenderer>();
-            sr.sortingLayerName = "Rooms";
-            sr.sortingOrder = 0;
+            if (controller != null)
+            {
+                controller.SetupRoom(node);
+                spawnedControllers.Add(controller);
 
-            if (node == startNode)
-            {
-                sr.color = Color.green;
-            } else if (node == endNode)
-            {
-                sr.color = Color.red;
-            } else if (node.isRestStop)
-            {
-                sr.color = Color.yellow;
-            } else if (node.difficulty == RoomDifficulty.Hard)
-            {
-                sr.color = new Color(0.3f, 0.3f, 0.3f);
-            } else if (node.difficulty == RoomDifficulty.Medium)
-            {
-                sr.color = new Color(0.6f, 0.6f, 0.6f);
-            } else if (node.difficulty == RoomDifficulty.Easy)
-            {
-                sr.color = new Color(0.9f, 0.9f, 0.9f);
+                Tilemap tm = controller.floorTilemap;
+
+                if (tm != null)
+                {
+                    roomTilemaps[node.id] = tm;
+
+                    // Use the node's world position directly as cell coordinates.
+                    // WorldToCell always returns (0,0,0) because the tilemap itself
+                    // hasn't moved — only its parent GameObject has been repositioned.
+                    Vector3Int cellCenter = new Vector3Int(
+                        Mathf.RoundToInt(node.position.x),
+                        Mathf.RoundToInt(node.position.y),
+                        0
+                    );
+                    int half = 4;
+
+                    currentDungeonData.rooms.Add(new RoomSaveData
+                    {
+                        nodeId = node.id,
+                        min = new Vector3Int(cellCenter.x - half, cellCenter.y - half, 0),
+                        size = new Vector3Int(9, 9, 0),
+                        type = node.type,
+                        roomLevel = node.roomLevel
+                    });
+                }
+                else
+                {
+                    Debug.LogWarning($"RoomGeneratorScript: No tilemap found on prefab instance for node id={node.id}");
+                }
             }
-
-            foreach (RoomNode target in node.connections)
+            else
             {
-                DrawLine(node.position, target.position);
+                Debug.LogWarning($"RoomGeneratorScript: No RoomController found on prefab instance for node id={node.id}");
             }
         }
+
+        // SPAWN ITEMS
+        ItemGenerator itemGen = GetComponent<ItemGenerator>();
+        if (itemGen != null)
+            itemGen.ManualSpawnWithData(currentDungeonData, roomTilemaps);
+
+        // REAPPLY COLORS AFTER ITEM SPAWN — item spawner can dirty tilemap state
+        for (int i = 0; i < spawnedControllers.Count; i++)
+            spawnedControllers[i].ApplyRoomColor(nodes[i]);
     }
 
-    // Creates lines to conenct each room visually (NOT CONNECTING ACTUAL GAME OBJECTS, JUST RENDERING VISUALS)
-    void DrawLine(Vector2 a, Vector2 b)
-    {
-        GameObject line = new GameObject("edge");
-        LineRenderer renderer = line.AddComponent<LineRenderer>();
-        renderer.material = lineMaterial;
-        renderer.startWidth = 0.03f;
-        renderer.endWidth = 0.03f;
-        renderer.positionCount = 2;
-        renderer.SetPosition(0, a);
-        renderer.SetPosition(1, b);
-
-        renderer.sortingLayerName = "Connections";
-        renderer.sortingOrder = 0;
-    }
-
-    //Helper functions for the grid system
     Vector2 GridToWorld(Vector2Int gridPos)
     {
         return new Vector2(gridPos.x * gridSpacing, gridPos.y * gridSpacing);
@@ -389,13 +167,5 @@ public class RoomGeneratorScript : MonoBehaviour
             Mathf.RoundToInt(worldPos.x / gridSpacing),
             Mathf.RoundToInt(worldPos.y / gridSpacing)
         );
-    }
-
-    int GridDistance(RoomNode a, RoomNode b)
-    {
-        Vector2Int ga = WorldToGrid(a.position);
-        Vector2Int gb = WorldToGrid(b.position);
-
-        return Mathf.Abs(ga.x - gb.x) + Mathf.Abs(ga.y - gb.y);
     }
 }

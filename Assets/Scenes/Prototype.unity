@@ -212,7 +212,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -296,8 +296,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1488098964}
+  - component: {fileID: 1488098965}
+  - component: {fileID: 1488098966}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: DungeonManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,154 +320,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1651567622
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1651567624}
-  - component: {fileID: 1651567623}
-  m_Layer: 0
-  m_Name: RoomGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1651567623
+--- !u!114 &1488098965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1651567622}
+  m_GameObject: {fileID: 1488098963}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96deba40d03b8e64e954c31a2feb96a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomGeneratorScript
-  mainPathLength: 0
-  maxBranchesPerRoom: 0
-  extraConnectionChance: 0
-  restStopCount: 0
-  minRestStopSeparation: 3
-  difficultyBias: 0
-  RoomNodePrefab: {fileID: 0}
-  lineMaterial: {fileID: 0}
---- !u!4 &1651567624
-Transform:
+  mainPathLength: 10
+  maxBranchesPerRoom: 2
+  extraConnectionChance: 0.1
+  gridSpacing: 12
+  RoomNodePrefab: {fileID: 4914299240816131154, guid: 882c4e2c273987f4f91aee93ddf6e330, type: 3}
+  lineMaterial: {fileID: 2100000, guid: 38f59b78567d69148b5e5204828ebaaf, type: 2}
+--- !u!114 &1488098966
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1651567622}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1794273472
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1794273474}
-  - component: {fileID: 1794273473}
-  m_Layer: 0
-  m_Name: Room
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &1794273473
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794273472}
+  m_GameObject: {fileID: 1488098963}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &1794273474
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794273472}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.45086, y: 0.31443, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcc95b7ca86a49feb506828a59e14bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemGenerator
+  itemPrefab: {fileID: 8692028930107770419, guid: 3d2f0b194f09d45d4b96518f4b2f8907, type: 3}
+  itemScale: {x: 2.5, y: 2.5, z: 1}
+  tradeOffSpawnChance: 50
+  penaltyIntensity: 1
+  globalDifficulty: 1
+  minSpacing: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  wallCheckRadius: 0.45
+  floorTilemap: {fileID: 0}
+  raritySettings:
+  - rarity: 0
+    baseWeight: 50
+    sprite: {fileID: -4896268831242159829, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 1
+    baseWeight: 25
+    sprite: {fileID: 4776426934280974592, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 2
+    baseWeight: 15
+    sprite: {fileID: -5363086527675199593, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 3
+    baseWeight: 7
+    sprite: {fileID: -6608286749589314126, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 4
+    baseWeight: 3
+    sprite: {fileID: -752767846228093550, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1016539999}
   - {fileID: 1488098964}
-  - {fileID: 1651567624}
   - {fileID: 303205874}
-  - {fileID: 1794273474}
