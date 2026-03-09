@@ -119,37 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &303205873
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 303205874}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &303205874
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303205873}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1016539996
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,10 +303,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomGeneratorScript
   mainPathLength: 10
   maxBranchesPerRoom: 2
-  extraConnectionChance: 0.1
   gridSpacing: 12
   RoomNodePrefab: {fileID: 4914299240816131154, guid: 882c4e2c273987f4f91aee93ddf6e330, type: 3}
   lineMaterial: {fileID: 2100000, guid: 38f59b78567d69148b5e5204828ebaaf, type: 2}
+  playerPrefab: {fileID: 2803546431680223414, guid: a9f6f0005ea8e3943b40dc6bc64b7496, type: 3}
+  enemyPrefab: {fileID: 8934796803027059978, guid: ead91ac9e57412642a298881a2c0ea9a, type: 3}
 --- !u!114 &1488098966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,15 +322,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemGenerator
   itemPrefab: {fileID: 8692028930107770419, guid: 3d2f0b194f09d45d4b96518f4b2f8907, type: 3}
   itemScale: {x: 2.5, y: 2.5, z: 1}
-  tradeOffSpawnChance: 50
   penaltyIntensity: 1
   globalDifficulty: 1
-  minSpacing: 2
+  rarityScalingRate: 0.4
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
   wallCheckRadius: 0.45
-  floorTilemap: {fileID: 0}
   raritySettings:
   - rarity: 0
     baseWeight: 50
@@ -383,4 +351,3 @@ SceneRoots:
   m_Roots:
   - {fileID: 1016539999}
   - {fileID: 1488098964}
-  - {fileID: 303205874}

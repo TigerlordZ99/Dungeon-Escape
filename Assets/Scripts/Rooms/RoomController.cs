@@ -12,6 +12,8 @@ public class RoomController : MonoBehaviour
     [Header("Visuals")]
     public Tilemap floorTilemap;
 
+    private RoomNode currentNode;
+
     void Awake()
     {
         if (floorTilemap == null)
@@ -20,23 +22,34 @@ public class RoomController : MonoBehaviour
 
     public void SetupRoom(RoomNode node)
     {
-        // Reset doors
-        if (northDoor) northDoor.SetActive(false);
-        if (southDoor) southDoor.SetActive(false);
-        if (eastDoor) eastDoor.SetActive(false);
-        if (westDoor) westDoor.SetActive(false);
+        currentNode = node;
 
-        // Open doors based on logical connections
+        // Default all doors to BLOCKED (collider on, no passage)
+        SetDoorBlocked(northDoor, true);
+        SetDoorBlocked(southDoor, true);
+        SetDoorBlocked(eastDoor, true);
+        SetDoorBlocked(westDoor, true);
+
+        // Open doors that have connections
         foreach (RoomNode connection in node.connections)
         {
             Vector2 direction = connection.position - node.position;
-            if (direction.y > 0.5f && northDoor) northDoor.SetActive(true);
-            if (direction.y < -0.5f && southDoor) southDoor.SetActive(true);
-            if (direction.x > 0.5f && eastDoor) eastDoor.SetActive(true);
-            if (direction.x < -0.5f && westDoor) westDoor.SetActive(true);
+            if (direction.y > 0.5f) SetDoorBlocked(northDoor, false);
+            if (direction.y < -0.5f) SetDoorBlocked(southDoor, false);
+            if (direction.x > 0.5f) SetDoorBlocked(eastDoor, false);
+            if (direction.x < -0.5f) SetDoorBlocked(westDoor, false);
         }
 
         ApplyRoomColor(node);
+    }
+
+    private void SetDoorBlocked(GameObject door, bool blocked)
+    {
+        if (door == null) return;
+
+        Collider2D col = door.GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = blocked; // blocked = true means wall, false means open
     }
 
     public void ApplyRoomColor(RoomNode node)
@@ -51,5 +64,13 @@ public class RoomController : MonoBehaviour
 
         floorTilemap.color = targetColor;
         Debug.Log($"ApplyRoomColor | isStart={node.isStart} | type={node.type} | tilemap={(floorTilemap == null ? "NULL" : "OK")} | color={targetColor}");
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (currentNode != null && currentNode.isEnd && other.CompareTag("Player"))
+        {
+            Debug.Log("You escaped the dungeon!");
+        }
     }
 }

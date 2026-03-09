@@ -13,6 +13,10 @@ public class RoomGeneratorScript : MonoBehaviour
     public GameObject RoomNodePrefab;
     public Material lineMaterial;
 
+    [Header("Spawning")]
+    public GameObject playerPrefab;
+    public GameObject enemyPrefab;
+
     private List<RoomNode> nodes = new List<RoomNode>();
     private HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
     private Vector2Int[] directions = { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
@@ -98,6 +102,10 @@ public class RoomGeneratorScript : MonoBehaviour
         List<RoomController> spawnedControllers = new List<RoomController>();
         Dictionary<int, Tilemap> roomTilemaps = new Dictionary<int, Tilemap>();
 
+        RoomNode startNode = null;
+        RoomNode endNode = null;
+        List<RoomNode> spawnableNodes = new List<RoomNode>();
+
         for (int i = 0; i < nodes.Count; i++)
         {
             RoomNode node = nodes[i];
@@ -116,9 +124,6 @@ public class RoomGeneratorScript : MonoBehaviour
                 {
                     roomTilemaps[node.id] = tm;
 
-                    // Use the node's world position directly as cell coordinates.
-                    // WorldToCell always returns (0,0,0) because the tilemap itself
-                    // hasn't moved — only its parent GameObject has been repositioned.
                     Vector3Int cellCenter = new Vector3Int(
                         Mathf.RoundToInt(node.position.x),
                         Mathf.RoundToInt(node.position.y),
@@ -144,6 +149,36 @@ public class RoomGeneratorScript : MonoBehaviour
             {
                 Debug.LogWarning($"RoomGeneratorScript: No RoomController found on prefab instance for node id={node.id}");
             }
+
+            // Track key nodes for spawning
+            if (node.isStart) startNode = node;
+            else if (node.isEnd) endNode = node;
+            else spawnableNodes.Add(node);
+        }
+
+        // SPAWN PLAYER at start room
+        if (playerPrefab != null && startNode != null)
+        {
+            Instantiate(playerPrefab, new Vector3(startNode.position.x, startNode.position.y, 0), Quaternion.identity);
+            Debug.Log("Player spawned at start room: " + startNode.position);
+        }
+        else
+        {
+            Debug.LogWarning("RoomGeneratorScript: playerPrefab or startNode is null!");
+        }
+
+        Debug.Log("Spawnable nodes count: " + spawnableNodes.Count); 
+        
+        // SPAWN ENEMY at a random non-start, non-end room
+        if (enemyPrefab != null && spawnableNodes.Count > 0)
+        {
+            RoomNode enemyRoom = spawnableNodes[Random.Range(0, spawnableNodes.Count)];
+            Instantiate(enemyPrefab, new Vector3(enemyRoom.position.x, enemyRoom.position.y, 0), Quaternion.identity);
+            Debug.Log("Enemy spawned at room: " + enemyRoom.position);
+        }
+        else
+        {
+            Debug.LogWarning("RoomGeneratorScript: enemyPrefab is null or no valid rooms!");
         }
 
         // SPAWN ITEMS
@@ -151,7 +186,7 @@ public class RoomGeneratorScript : MonoBehaviour
         if (itemGen != null)
             itemGen.ManualSpawnWithData(currentDungeonData, roomTilemaps);
 
-        // REAPPLY COLORS AFTER ITEM SPAWN — item spawner can dirty tilemap state
+        // REAPPLY COLORS AFTER ITEM SPAWN
         for (int i = 0; i < spawnedControllers.Count; i++)
             spawnedControllers[i].ApplyRoomColor(nodes[i]);
     }

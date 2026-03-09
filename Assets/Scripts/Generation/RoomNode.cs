@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +7,12 @@ public class RoomNode
 {
     public int id;
     public Vector2 position;
+    
+    [NonSerialized]
     public List<RoomNode> connections = new List<RoomNode>();
     
-    // Required for ItemGenerator & BFS Scaling
     public RoomType type; 
-    public int roomLevel; // Distance from start
+    public int roomLevel;
     
     public bool isStart;
     public bool isEnd;
