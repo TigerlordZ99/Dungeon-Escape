@@ -297,6 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1488098964}
   - component: {fileID: 1488098965}
+  - component: {fileID: 1488098966}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -334,12 +335,48 @@ MonoBehaviour:
   mainPathLength: 10
   maxBranchesPerRoom: 2
   extraConnectionChance: 0.1
-  restStopCount: 2
-  minRestStopSeparation: 3
-  difficultyBias: 0
+  gridSpacing: 12
   RoomNodePrefab: {fileID: 4914299240816131154, guid: 882c4e2c273987f4f91aee93ddf6e330, type: 3}
   lineMaterial: {fileID: 2100000, guid: 38f59b78567d69148b5e5204828ebaaf, type: 2}
-  gridSpacing: 12
+--- !u!114 &1488098966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488098963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcc95b7ca86a49feb506828a59e14bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemGenerator
+  itemPrefab: {fileID: 8692028930107770419, guid: 3d2f0b194f09d45d4b96518f4b2f8907, type: 3}
+  itemScale: {x: 2.5, y: 2.5, z: 1}
+  tradeOffSpawnChance: 50
+  penaltyIntensity: 1
+  globalDifficulty: 1
+  minSpacing: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  wallCheckRadius: 0.45
+  floorTilemap: {fileID: 0}
+  raritySettings:
+  - rarity: 0
+    baseWeight: 50
+    sprite: {fileID: -4896268831242159829, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 1
+    baseWeight: 25
+    sprite: {fileID: 4776426934280974592, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 2
+    baseWeight: 15
+    sprite: {fileID: -5363086527675199593, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 3
+    baseWeight: 7
+    sprite: {fileID: -6608286749589314126, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+  - rarity: 4
+    baseWeight: 3
+    sprite: {fileID: -752767846228093550, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

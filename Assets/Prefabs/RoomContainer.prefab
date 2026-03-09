@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7266889231979356413}
   - component: {fileID: 6569099492865329022}
   - component: {fileID: 824534590178211340}
-  m_Layer: 0
-  m_Name: Wall
+  m_Layer: 3
+  m_Name: Wall_Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 4428207592314212164}
   - component: {fileID: 2829529452303776673}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Floor_Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
