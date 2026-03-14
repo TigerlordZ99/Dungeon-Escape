@@ -63,7 +63,17 @@ public class RoomGeneratorScript : MonoBehaviour
             }
 
             previous = newNode;
-            currentGrid += directions[Random.Range(0, 4)];
+
+            // Pick a direction that isn't already occupied
+            List<Vector2Int> validDirs = new List<Vector2Int>();
+            foreach (Vector2Int dir in directions)
+            {
+                if (!occupied.Contains(currentGrid + dir))
+                    validDirs.Add(dir);
+            }
+
+            if (validDirs.Count == 0) break; // Safety fallback
+            currentGrid += validDirs[Random.Range(0, validDirs.Count)];
         }
 
         // BRANCHING
