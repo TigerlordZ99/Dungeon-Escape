@@ -16,6 +16,7 @@ public class RoomGeneratorScript : MonoBehaviour
     [Header("Spawning")]
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+    public GameObject winObjectPrefab;
 
     private List<RoomNode> nodes = new List<RoomNode>();
     private HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
@@ -189,6 +190,22 @@ public class RoomGeneratorScript : MonoBehaviour
         else
         {
             Debug.LogWarning("RoomGeneratorScript: enemyPrefab is null or no valid rooms!");
+        }
+
+        // SPAWN WIN OBJECT at end room - centered
+        if (winObjectPrefab != null && endNode != null)
+        {
+            Vector3 centeredPosition = new Vector3(
+                endNode.position.x + (gridSpacing / 24),
+                endNode.position.y - (gridSpacing / 24),
+                0
+            );
+            Instantiate(winObjectPrefab, centeredPosition, Quaternion.identity);
+            Debug.Log("Win object spawned at end room: " + endNode.position);
+        }
+        else
+        {
+            Debug.LogWarning("RoomGeneratorScript: winObjectPrefab or endNode is null!");
         }
 
         // SPAWN ITEMS
