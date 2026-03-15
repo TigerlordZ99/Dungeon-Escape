@@ -12,10 +12,8 @@ GameObject:
   - component: {fileID: 548584151091241756}
   - component: {fileID: 8563703517995047016}
   - component: {fileID: 9161635887611571995}
-  - component: {fileID: -8659887876785506857}
   - component: {fileID: 1310222205477088147}
-  - component: {fileID: 4506142109156697833}
-  - component: {fileID: 6610895326981832524}
+  - component: {fileID: -8594336444094031122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -159,20 +157,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.1
---- !u!114 &-8659887876785506857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2803546431680223414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0a90d52efff17248a20490cfc55c5f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  damage: 1
-  range: 1.5
 --- !u!114 &1310222205477088147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 6
---- !u!114 &4506142109156697833
+--- !u!114 &-8594336444094031122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,30 +179,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2803546431680223414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 408af227ed025684b8f8b9328092302e, type: 3}
+  m_Script: {fileID: 11500000, guid: dc7520d58fb613745a239617681ca2c5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 100
-  currentHealth: 0
---- !u!95 &6610895326981832524
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2803546431680223414}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 850e9a2a525c8eb42b1b051e08ce86eb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory

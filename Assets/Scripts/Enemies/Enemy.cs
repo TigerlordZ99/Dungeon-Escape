@@ -1,44 +1,32 @@
 using UnityEngine;
 
+// Chase-only enemy — no combat. Player evades; enemies are pure pressure.
 public class Enemy : MonoBehaviour
 {
-    public float health = 25f;
     public float speed = 2f;
-    public float damage = 20f;
 
-    Transform player;
+    private Transform player;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) player = p.transform;
     }
 
     void Update()
     {
-        if (player == null) return; // Stop chasing if player is gone
+        if (player == null)
+        {
+            // Re-find if player reference lost (e.g. scene reload edge case)
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) player = p.transform;
+            return;
+        }
 
         transform.position = Vector2.MoveTowards(
             transform.position,
             player.position,
             speed * Time.deltaTime
         );
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            PlayerHealth ph = other.GetComponent<PlayerHealth>();
-            if (ph != null)
-                ph.TakeDamage(damage);
-        }
-    }
-
-    public void TakeDamage(float dmg)
-    {
-        health -= dmg;
-
-        if (health <= 0)
-            Destroy(gameObject);
     }
 }

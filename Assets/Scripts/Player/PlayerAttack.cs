@@ -1,24 +1,6 @@
+// PlayerAttack is no longer needed — combat has been removed.
+// This file is kept as a placeholder so existing prefab references don't break.
+// You can safely remove the component from your Player prefab.
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
-{
-    public float damage = 1;
-    public float range = 1.5f;
-
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Collider2D[] hits =
-                Physics2D.OverlapCircleAll(transform.position,range);
-
-            foreach(Collider2D hit in hits)
-            {
-                Enemy e = hit.GetComponent<Enemy>();
-
-                if(e != null)
-                    e.TakeDamage(damage);
-            }
-        }
-    }
-}
+public class PlayerAttack : MonoBehaviour { }

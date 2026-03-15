@@ -360,8 +360,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1488098964}
-  - component: {fileID: 1488098965}
+  - component: {fileID: 1488098967}
   - component: {fileID: 1488098966}
+  - component: {fileID: 1488098965}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -393,7 +394,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1488098963}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96deba40d03b8e64e954c31a2feb96a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 02c1c7673507d5c4bbb1319576104a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyPrefab: {fileID: 8934796803027059978, guid: ead91ac9e57412642a298881a2c0ea9a, type: 3}
+  maxEnemies: 5
+--- !u!114 &1488098966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488098963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be7ea7d4ed9ea644bee5f994d70c09c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomGeneratorScript
   mainPathLength: 10
@@ -404,7 +419,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 2803546431680223414, guid: a9f6f0005ea8e3943b40dc6bc64b7496, type: 3}
   enemyPrefab: {fileID: 8934796803027059978, guid: ead91ac9e57412642a298881a2c0ea9a, type: 3}
   winObjectPrefab: {fileID: 6041452733593344776, guid: f2dc0ae03c350644782a109bf96f491d, type: 3}
---- !u!114 &1488098966
+--- !u!114 &1488098967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -413,34 +428,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1488098963}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dcc95b7ca86a49feb506828a59e14bf, type: 3}
+  m_Script: {fileID: 11500000, guid: a71ec379251cf004c8260dcf8a7c1d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemGenerator
-  itemPrefab: {fileID: 8692028930107770419, guid: 3d2f0b194f09d45d4b96518f4b2f8907, type: 3}
-  itemScale: {x: 2.5, y: 2.5, z: 1}
-  penaltyIntensity: 1
-  globalDifficulty: 1
-  rarityScalingRate: 0.4
+  itemPrefab: {fileID: 6288907022435697548, guid: 1d3be1157c62de041a07f3ea6e8a54e0, type: 3}
+  itemScale: {x: 1, y: 1, z: 1}
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
   wallCheckRadius: 0.45
   raritySettings:
   - rarity: 0
-    baseWeight: 50
-    sprite: {fileID: -4896268831242159829, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+    baseWeight: 40
+    sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
   - rarity: 1
-    baseWeight: 25
-    sprite: {fileID: 4776426934280974592, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+    baseWeight: 30
+    sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
   - rarity: 2
-    baseWeight: 15
-    sprite: {fileID: -5363086527675199593, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+    baseWeight: 20
+    sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
   - rarity: 3
-    baseWeight: 7
-    sprite: {fileID: -6608286749589314126, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+    baseWeight: 10
+    sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
   - rarity: 4
-    baseWeight: 3
-    sprite: {fileID: -752767846228093550, guid: 2a241986227434ec6a8be94a66e67e8b, type: 3}
+    baseWeight: 0
+    sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,24 +1,6 @@
+// PlayerHealth is no longer needed — enemies do not deal damage.
+// This file is kept as a placeholder so existing prefab references don't break.
+// You can safely remove the component from your Player prefab.
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
-{
-    public float maxHealth = 100f;
-    public float currentHealth;
-
-    void Start()
-    {
-        currentHealth = maxHealth;
-    }
-
-    public void TakeDamage(float dmg)
-    {
-        currentHealth -= dmg;
-        Debug.Log("Player health: " + currentHealth);
-
-        if (currentHealth <= 0)
-        {
-            Debug.Log("Player is dead!");
-            Destroy(gameObject);
-        }
-    }
-}
+public class PlayerHealth : MonoBehaviour { }
