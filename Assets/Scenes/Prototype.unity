@@ -452,7 +452,7 @@ MonoBehaviour:
     sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
   - rarity: 4
     baseWeight: 0
-    sprite: {fileID: -3086127606734529721, guid: 3e014857d3697ec4bb7680bb77cdcf8c, type: 3}
+    sprite: {fileID: 4966471329051980353, guid: b6ccc81261b1658479d9f829f2965dc4, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

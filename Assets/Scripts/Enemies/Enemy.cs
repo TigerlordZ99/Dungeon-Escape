@@ -3,7 +3,7 @@ using UnityEngine;
 // Chase-only enemy — no combat. Player evades; enemies are pure pressure.
 public class Enemy : MonoBehaviour
 {
-    public float speed = 2f;
+    public float speed = 8f;
 
     private Transform player;
 

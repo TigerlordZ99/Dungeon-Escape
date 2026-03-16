@@ -118,7 +118,11 @@ public class ItemGenerator : MonoBehaviour
     {
         GameObject obj = Instantiate(itemPrefab, pos, Quaternion.identity, parent);
         obj.tag = "Item";
-        obj.transform.localScale = itemScale;
+        //obj.transform.localScale = itemScale;
+        if (data.isMasterKey)
+            obj.transform.localScale = new Vector3(0.2f, 0.2f, 1f); // Adjust this value
+        else
+            obj.transform.localScale = new Vector3(itemScale.x / 4f, itemScale.y / 4f, 1f);
 
         var set = raritySettings.Find(s => s.rarity == data.rarity);
         data.itemSprite = set.sprite;

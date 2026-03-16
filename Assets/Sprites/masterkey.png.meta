@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3e014857d3697ec4bb7680bb77cdcf8c
+guid: b6ccc81261b1658479d9f829f2965dc4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3086127606734529721
-    second: vecteezy_pixel-old-key-for-games_10463909-removebg-preview_0
+      213: 4966471329051980353
+    second: masterkey_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vecteezy_pixel-old-key-for-games_10463909-removebg-preview_0
+      name: masterkey_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 15
-        width: 545
-        height: 432
+        x: 0
+        y: 0
+        width: 752
+        height: 517
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 74bdf0dea4fdb25d0800000000000000
-      internalID: -3086127606734529721
+      spriteID: 1423e4b3c537ce440800000000000000
+      internalID: 4966471329051980353
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      vecteezy_pixel-old-key-for-games_10463909-removebg-preview_0: -3086127606734529721
+      masterkey_0: 4966471329051980353
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
