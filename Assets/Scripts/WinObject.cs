@@ -108,8 +108,8 @@ public class WinObject : MonoBehaviour
         noTextRect.offsetMax = Vector2.zero;
 
         noButton.onClick.AddListener(() => {
-            // Do nothing — just close the canvas
-            winCanvas.SetActive(false);
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainMenu");
         });
     }
 
