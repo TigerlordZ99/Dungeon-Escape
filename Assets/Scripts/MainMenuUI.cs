@@ -39,7 +39,7 @@ public class MainMenuUI : MonoBehaviour
             new Vector2(0.35f, 0.55f), new Vector2(0.65f, 0.65f),
             new Color(0.2f, 0.6f, 0.2f), () =>
             {
-                SceneManager.LoadScene("Prototype");
+                SceneManager.LoadScene("Game");
             });
 
         // Rules Button
