@@ -62,15 +62,17 @@ public class MainMenuUI : MonoBehaviour
     void ShowRules(GameObject canvas)
     {
         ShowPopup(canvas, "RULES",
+            "- Use WASD to move.\n" +
             "- The green room is where you start and the goal is to reach the red room.\n" +
             "- Every other room will have a colored key and 4 doors (top, left, right, bottom) of any color.\n" +
             "- Collect keys to unlock doors to another room.\n" +
             "- Each colored key corresponds to its door. Ex: A red key unlocks a red door.\n" +
+            "- Run into the doors to unlock.\n" +
             "- You can only use a key once. However, unlocking applies to all the room's 4 doors .\n" +
             "- White colored doors indicate open/unlocked. Any other colored doors indicate locked.\n" +
             "- Find the Master Key to unlock the red room. The master key looks much different that the others.\n" +
             "- Reach the middle of the red room to escape the dungeon.\n" +
-            "- Avoid enemies chasing you! Interacting with them will deplete your health.");
+            "- Avoid enemies chasing you! Interacting with them will reduce your health.");
     }
 
     void ShowCredits(GameObject canvas)
