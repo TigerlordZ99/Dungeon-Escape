@@ -79,6 +79,8 @@ public class MainMenuUI : MonoBehaviour
         ShowPopup(canvas, "CREDITS",
             "Game developed by:\n" +
             "Anish Bansal & Madhav Ramakrishnan\n\n" +
+            "Room Layout Generator by Noah Baron\n" +
+            "Noise Based Random Item Generator by Inho Yoo\n\n" +
             "BGM by Shumworld on Freesound\n" +
             "SFX by Freesound-community on Pixabay,\nRaclure and BradWesson on Freesound\n\n" +
             "Key sprite by Giuseppe Ramos on Vecteezy\n" +
