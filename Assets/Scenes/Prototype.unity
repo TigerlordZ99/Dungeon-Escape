@@ -119,6 +119,58 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &497030113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 497030115}
+  - component: {fileID: 497030114}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &497030114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497030113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5421b7f8af3684d4fa0191a8410560d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  takeDamageClip: {fileID: 8300000, guid: e96d36742494c044dbedc5df5b34b8c8, type: 3}
+  pickupKeyClip: {fileID: 8300000, guid: 5903ae3d06c9c28438bf38e7bcaf1859, type: 3}
+  openDoorClip: {fileID: 8300000, guid: 1a6c866e378fa7542bf2f028bc7efbf3, type: 3}
+  winClip: {fileID: 8300000, guid: 57b8ffc45260a134a9c4268dad0f8582, type: 3}
+  deathClip: {fileID: 8300000, guid: 0fdfd0379aceb1747b7376b6ffb24107, type: 3}
+  ambientClip: {fileID: 8300000, guid: b9b3494dc7a2f0943acff1debec9711a, type: 3}
+  sfxVolume: 1
+  ambientVolume: 0.6
+--- !u!4 &497030115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497030113}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.46495, y: -20.27218, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946790973
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,8 +287,8 @@ Camera:
   m_GameObject: {fileID: 1016539996}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -361,8 +413,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1488098964}
   - component: {fileID: 1488098967}
+  - component: {fileID: 1488098968}
   - component: {fileID: 1488098966}
-  - component: {fileID: 1488098965}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -385,20 +437,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1488098965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1488098963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02c1c7673507d5c4bbb1319576104a4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 8934796803027059978, guid: ead91ac9e57412642a298881a2c0ea9a, type: 3}
-  maxEnemies: 5
 --- !u!114 &1488098966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +491,20 @@ MonoBehaviour:
   - rarity: 4
     baseWeight: 0
     sprite: {fileID: 4966471329051980353, guid: b6ccc81261b1658479d9f829f2965dc4, type: 3}
+--- !u!114 &1488098968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488098963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c1c7673507d5c4bbb1319576104a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyPrefab: {fileID: 8934796803027059978, guid: ead91ac9e57412642a298881a2c0ea9a, type: 3}
+  maxEnemies: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -460,3 +512,4 @@ SceneRoots:
   - {fileID: 1016539999}
   - {fileID: 1488098964}
   - {fileID: 946790976}
+  - {fileID: 497030115}

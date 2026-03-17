@@ -91,6 +91,7 @@ public class RoomController : MonoBehaviour
         {
             inv.TryUseKey(required);
             SetAllDoors(Color.white, false);
+            AudioManager.PlayOpenDoor();
             Debug.Log($"Unlocked with {required} key!");
         }
         else

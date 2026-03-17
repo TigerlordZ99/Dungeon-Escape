@@ -28,6 +28,7 @@ public class ItemObject : MonoBehaviour
         if (inv == null) return;
 
         inv.CollectKey(itemData);
+        AudioManager.PlayPickupKey();
         Destroy(gameObject);
     }
 
@@ -35,11 +36,11 @@ public class ItemObject : MonoBehaviour
     {
         return kc switch
         {
-            KeyColor.Red    => new Color(1f,   0.3f, 0.3f),
-            KeyColor.Blue   => new Color(0.3f, 0.6f, 1f),
-            KeyColor.Green  => new Color(0.3f, 1f,   0.4f),
+            KeyColor.Red    => new Color(1f,   0.2f, 0.2f),
+            KeyColor.Blue   => new Color(0f, 36f/255f, 1f),
+            KeyColor.Green  => new Color(0.2f, 1f,   0.2f),
             KeyColor.Yellow => new Color(1f,   0.95f, 0.2f),
-            KeyColor.Master => new Color(1f,   0.84f, 0f),   // gold
+            KeyColor.Master => new Color(239f/255f, 0f, 1f),
             _               => Color.white
         };
     }

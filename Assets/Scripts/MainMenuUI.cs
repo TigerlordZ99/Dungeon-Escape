@@ -37,21 +37,24 @@ public class MainMenuUI : MonoBehaviour
         // Start Game Button
         CreateButton(canvasObj, "StartButton", "Start Game",
             new Vector2(0.35f, 0.55f), new Vector2(0.65f, 0.65f),
-            new Color(0.2f, 0.6f, 0.2f), () => {
+            new Color(0.2f, 0.6f, 0.2f), () =>
+            {
                 SceneManager.LoadScene("Prototype");
             });
 
         // Rules Button
         CreateButton(canvasObj, "RulesButton", "Rules",
             new Vector2(0.35f, 0.40f), new Vector2(0.65f, 0.50f),
-            new Color(0.2f, 0.4f, 0.8f), () => {
+            new Color(0.2f, 0.4f, 0.8f), () =>
+            {
                 ShowRules(canvasObj);
             });
 
         // Credits Button
         CreateButton(canvasObj, "CreditsButton", "Credits",
             new Vector2(0.35f, 0.25f), new Vector2(0.65f, 0.35f),
-            new Color(0.5f, 0.2f, 0.6f), () => {
+            new Color(0.5f, 0.2f, 0.6f), () =>
+            {
                 ShowCredits(canvasObj);
             });
     }
@@ -67,17 +70,21 @@ public class MainMenuUI : MonoBehaviour
             "- White colored doors indicate open/unlocked. Any other colored doors indicate locked.\n" +
             "- Find the Master Key to unlock the red room. The master key looks much different that the others.\n" +
             "- Reach the middle of the red room to escape the dungeon.\n" +
-            "- Unfortunatly, there are 2 things that aren't intuitive and you will have to memorize: 1) Blue keys appear dark green , 2) Red rooms doors are yellow can cannot be unlocked by yellow keys; only the master key \n" +
             "- Avoid enemies chasing you! Interacting with them will deplete your health.");
     }
 
     void ShowCredits(GameObject canvas)
     {
         ShowPopup(canvas, "CREDITS",
-            "Game developed by:\n\n" +
-            "Anish Bansal\n" +
-            "Madhav Ramakrishnan\n\n" +
-            "Made with Unity");
+            "Game developed by:\n" +
+            "Anish Bansal & Madhav Ramakrishnan\n\n" +
+            "BGM by Shumworld on Freesound\n" +
+            "SFX by Freesound-community on Pixabay,\nRaclure and BradWesson on Freesound\n\n" +
+            "Key sprite by Giuseppe Ramos on Vecteezy\n" +
+            "Enemy sprite by Warren Clark on itch.io\n" +
+            "Player sprite by Pipoya on itch.io\n\n" +
+            "Made with Unity\n\n" +
+            "AI Disclaimer: Generative AI coding tools such as\nClaude and ChatGPT were used to help develop this project");
     }
 
     void ShowPopup(GameObject canvas, string title, string content)
@@ -110,7 +117,8 @@ public class MainMenuUI : MonoBehaviour
         // Close button
         CreateButton(popup, "CloseButton", "Close",
             new Vector2(0.35f, 0.05f), new Vector2(0.65f, 0.18f),
-            new Color(0.7f, 0.2f, 0.2f), () => {
+            new Color(0.7f, 0.2f, 0.2f), () =>
+            {
                 Destroy(popup);
             });
     }

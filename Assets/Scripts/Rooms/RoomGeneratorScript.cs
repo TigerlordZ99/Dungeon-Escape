@@ -27,6 +27,9 @@ public class RoomGeneratorScript : MonoBehaviour
 
     void Start()
     {
+        // Random dungeon size each run — between 6 and 15 rooms
+        mainPathLength = (uint)Random.Range(6, 16);
+        Debug.Log($"Dungeon size this run: {mainPathLength} rooms");
         GenerateGraph();
         DrawGraph();
     }

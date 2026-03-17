@@ -76,7 +76,8 @@ public class WinObject : MonoBehaviour
         yesTextRect.offsetMin = Vector2.zero;
         yesTextRect.offsetMax = Vector2.zero;
 
-        yesButton.onClick.AddListener(() => {
+        yesButton.onClick.AddListener(() =>
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
 
@@ -107,9 +108,10 @@ public class WinObject : MonoBehaviour
         noTextRect.offsetMin = Vector2.zero;
         noTextRect.offsetMax = Vector2.zero;
 
-        noButton.onClick.AddListener(() => {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene("MainMenu");
+        noButton.onClick.AddListener(() =>
+        {
+            // Do nothing — just close the canvas
+            winCanvas.SetActive(false);
         });
     }
 
@@ -117,8 +119,9 @@ public class WinObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            AudioManager.PlayWin();
             winCanvas.SetActive(true);
-            Time.timeScale = 0f; // Pause the game
+            Time.timeScale = 0f;
         }
     }
 

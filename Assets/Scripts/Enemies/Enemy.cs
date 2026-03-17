@@ -1,9 +1,10 @@
 using UnityEngine;
 
-// Chase-only enemy — no combat. Player evades; enemies are pure pressure.
 public class Enemy : MonoBehaviour
 {
     public float speed = 8f;
+    public float separationRadius = 1.5f;
+    public float separationForce = 3f;
 
     private Transform player;
 
@@ -17,15 +18,30 @@ public class Enemy : MonoBehaviour
     {
         if (player == null)
         {
-            // Re-find if player reference lost (e.g. scene reload edge case)
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null) player = p.transform;
             return;
         }
 
+        Vector2 chaseDir = ((Vector2)player.position - (Vector2)transform.position).normalized;
+
+        Vector2 separation = Vector2.zero;
+        Collider2D[] nearby = Physics2D.OverlapCircleAll(transform.position, separationRadius);
+        foreach (Collider2D col in nearby)
+        {
+            if (col.gameObject == gameObject) continue;
+            if (col.GetComponent<Enemy>() == null) continue;
+
+            Vector2 pushDir = (Vector2)(transform.position - col.transform.position);
+            float dist = pushDir.magnitude;
+            if (dist > 0)
+                separation += pushDir.normalized / dist;
+        }
+
+        Vector2 finalDir = chaseDir + separation * separationForce;
         transform.position = Vector2.MoveTowards(
             transform.position,
-            player.position,
+            (Vector2)transform.position + finalDir,
             speed * Time.deltaTime
         );
     }
